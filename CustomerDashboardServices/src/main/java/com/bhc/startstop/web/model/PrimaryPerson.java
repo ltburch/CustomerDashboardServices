@@ -5,8 +5,6 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "START_STOP_PRIMARY_PERSON")
 // @DiscriminatorValue(PersonEntity.PRIMARY_PERSON_TYPE)
 public class PrimaryPerson extends PersonEntity {
 

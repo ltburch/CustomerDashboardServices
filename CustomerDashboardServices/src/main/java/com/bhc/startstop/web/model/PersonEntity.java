@@ -10,36 +10,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import org.apache.commons.lang3.StringUtils;
 
-// import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-
-import com.bhc.startstop.util.DateUtils;
 import com.bhc.startstop.webservice.model.DebtInfo;
 
-// @Entity
-// @Table(name = "START_STOP_PERSON")
-// @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-// @DiscriminatorColumn(name = "PERSON_TYPE", discriminatorType = DiscriminatorType.STRING)
-@MappedSuperclass
 public class PersonEntity implements Serializable, Person {
 
     private static final long serialVersionUID = 1L;
@@ -71,107 +45,40 @@ public class PersonEntity implements Serializable, Person {
      * NOTE:  when adding new columns, also add them to the copy constructor, toString, and update
      */
 
-    @Id
-    @Column(name = "PERSON_ID", updatable = false, nullable = false)
-    @GenericGenerator(name = "person_sequence", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-            @Parameter(name = "sequence_name", value = "START_STOP_PERSON_ID_SEQ"),
-            // @Parameter(name= "initial_value", value="1"),
-            @Parameter(name = "increment_size", value = "1") })
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_sequence")
     private Long id;
 
-    // PERSON_TYPE - mapped as discriminator
-    @Column(name = "PERSON_TYPE")
     private String personType;
 
-    @Column(name = "CIS_PERSON_TYPE")
     private String cisType;
     // ACCOUNT_ID - optional foreign key for additional, contacts
 
-    @Column(name = "CIS_PERSON_ID")
     private Long personId;
 
-    @Column(name = "LANDLORD")
-    @Type(type = "yes_no")
     private Boolean landlord;
 
-    @Column(name = "POS_ID")
     private String posId;
-    @Column(name = "POS_ID_MESSAGE")
     private String posIdMessage;
-    @Column(name = "POS_ID_ATTEMPT_COUNT")
     private Integer posIdAttemptCount;
-    @Column(name = "TOTAL_ARREARS")
     private BigDecimal utilityDebt;    // utility debt in same loe
-    @Column(name = "NAME_PREFIX")
     private String namePrefix;
-    @Column(name = "LAST_NAME")
     private String lastName;               // made uppercase
-    @Column(name = "FIRST_NAME")
     private String firstName;              // made uppercase
-    @Column(name = "MIDDLE_NAME")
     private String middleName;             // made uppercase
-    // private String nameSuffix;
-    @Column(name = "BUSINESS_NAME")
     private String businessName;           // made uppercase
-    
-    @Column(name = "BUSINESS_TYPE")
     private String businessType;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "START_STOP_CIS_ACCOUNTS", joinColumns = @JoinColumn(name = "PERSON_ID"))
-    @Column(name = "CIS_ACCOUNT_NUMBER")
-    @Fetch(value = FetchMode.SUBSELECT)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> cisAccountNumbers;
-
-    @Column(name = "PRIMARY_PHONE_NUMBER")
     private String primaryPhoneNumber;
-    //@Column(name = "PRIMARY_PHONE_TYPE")
-    //private String primaryPhoneType;
-    // SECONDARY_PHONE_NUMBER
-    @Column(name = "SECONDARY_PHONE_NUMBER")  // we are using this for mobile number
     private String secondaryPhoneNumber;
-    // SECONDARY_PHONE_TYPE
-    //@Column(name = "SECONDARY_PHONE_TYPE")
-    //private String secondaryPhoneType;
-    // @DateTimeFormat(pattern = "MM/dd/yyyy") // allows binding when using @ModelAttribute
-    @Column(name = "BIRTH_DATE")
     private Date birthDate;
-    @Column(name = "SSN")
     private String ssn;
-    @Column(name = "EIN")
     private String ein;
-    @Column(name = "SSN_MATCH_COUNT")
     private Integer ssnMatchCount;
-    
-    @Transient
     private String ssnMatchError;
-    
-    @Column(name = "RELATIONSHIP_TYPE")
     private String relationshipType;
-
-    // private String employerName;
-    @Column(name = "EMAIL")
     private String email;
-
-    @Embedded
     private Address previousAddress;
-    // private XMLGregorianCalendar startDate;
-    /*
-    private Boolean duplicateBillFlag;
-    private String ebillToken;
-    private String ebillEmailAddress;
-    private String ebillToken255;
-    private String pendingFinRespRemoval;
-    private String printOnBillInd;
-    */
-
-    @Transient
     private DebtInfo debtInfo;
-    @Transient
     private Long sequenceNumber;
-    @Transient
     private List<String> ccErrorCodes;
 
     protected String formatPhoneNumber(String phoneNumber) {
