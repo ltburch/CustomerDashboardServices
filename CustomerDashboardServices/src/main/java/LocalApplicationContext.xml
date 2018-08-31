@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- <context:property-placeholder location="classpath:/database.properties" 
+		/> -->
+	<context:component-scan base-package="com.bhc" />
+
+	<bean id="user-default" class="com.bhc.soa.web.types.messages.user.v1.BhcUserType">
+		<property name="uid" value="12345" />
+
+
+		<property name="userName" value="default" />
+		<property name="emailAddress" value="coyote@gmail.com" />
+		<property name="primaryPhone" value="314-876-5309" />
+		<property name="firstName" value="While" />
+		<property name="lastName" value="Coyote" />
+		<!--
+		<property name="creationDt" value="1/1/1980" />
+		<property name="modifyDt" value="2/2/1990" />
+		 java.util.List extendedAttributes java.util.List groups; -->
+		<property name="accountNbrs">
+			<list>
+				<value>1234</value>
+				<value>2345</value>
+				<value>3456</value>
+			</list>
+
+		</property>
+		<property name="address">
+			<bean class="com.bhc.soa.web.types.messages.user.v1.AddressType">
+				<property name="streetAddress" value="4 privet drive" />
+				<property name="streetAddress2" value="under the stairs" />
+				<property name="city" value="Little Whinging" />
+				<property name="state" value="WY" />
+				<property name="postalCode" value="12345" />
+
+			</bean>
+		</property>
+		
+		<property name="companyId" value="5" />
+		<property name="businessName" value="Acme" />
+		<property name="userType" value="cis" />
+		<property name="userProfileStatus" value="active" />
+	</bean>
+
+	<bean id="userService"
+		class="com.bhc.customerdashboard.webservice.UserWebServiceLocal">
+		<property name="users">
+			<util:map map-class="java.util.HashMap">
+				<entry key="default" value-ref="user-default">
+				</entry>
+			</util:map>
+		</property>
+	</bean>
+
+</beans>

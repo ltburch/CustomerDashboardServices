@@ -1,11 +1,12 @@
-package com.bhc.startstop.webservice;
+package com.bhc.customerdashboard.webservice;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 
-import com.bhc.startstop.web.model.Person;
-import com.bhc.startstop.web.model.PrimaryPerson;
+import com.bhc.customerdashboard.web.model.BHUser;
+import com.bhc.soa.web.types.messages.user.v1.BhcUserType;
 
 public interface UserWebService {
-    public PrimaryPerson getLoggedInUserDetails(String userName);
+    public BhcUserType getLoggedInUserDetails(String userName) throws DatatypeConfigurationException;
 /*
     public void create(String username, String password, Person person)
             throws DuplicateUserNameException, BadPasswordException, WebProfileCreationException;

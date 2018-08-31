@@ -1,4 +1,4 @@
-package com.blackhills.customerdashboard;
+package com.bhc.customerdashboard;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
